@@ -5,10 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,8 +49,8 @@ public class User {
     @Size(groups = {CreateUser.class, UpdateUser.class}, min = 5, max = 60)
     private String password;
 
-
-    //private List<Task> tasks = new ArrayList<Task>();
+    @OneToMany(mappedBy = "user") // mappedBy deve conter o nome da variável na classe Task que mapeia as associações
+    private List<Task> tasks = new ArrayList<Task>();
 
     public User(){
 
@@ -67,6 +71,9 @@ public class User {
     public String getPassword(){
         return password;
     }
+    public List<Task> getTasks(){
+        return tasks;
+    }
 
     public void setId(Long id){
         this.id = id;
@@ -76,6 +83,9 @@ public class User {
     }
     public void setPassword(String password){
         this.password = password;
+    }
+    public void setTasks(List<Task> tasks){
+        this.tasks = tasks;
     }
 
     @Override
