@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pauloandre7.todosimple.models.User;
-import com.pauloandre7.todosimple.repositories.TaskRepository;
 import com.pauloandre7.todosimple.repositories.UserRepository;
 
 
@@ -19,8 +18,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
     
-    @Autowired
-    private TaskRepository taskRepo;
 
     public User findById(Long id){
         /* Optional é um recurso java para evitar o null. Se vier null, ele atribui vazio
@@ -43,7 +40,6 @@ public class UserService {
         /* Se o usuário mandar um objeto com id, ou seja, um já instanciado (criado)
         *  Ele poderia modificar pela função de save. Portanto, é importante resetar o id*/
         obj.setId(null);
-        this.taskRepo.saveAll(obj.getTasks());
 
         obj = this.userRepo.save(obj);
 
