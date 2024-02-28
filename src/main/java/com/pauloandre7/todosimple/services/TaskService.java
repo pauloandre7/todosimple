@@ -1,6 +1,7 @@
 package com.pauloandre7.todosimple.services;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,12 @@ public class TaskService {
         Optional<Task> task = this.taskRepo.findById(id);
 
         return task.orElseThrow(() -> new RuntimeException("Tarefa não encontrada!"));
+    }
+
+    public List<Task> findAllByUserId(Long userId){
+        List<Task> tasks = this.taskRepo.findByUser_Id(userId);
+        
+        return tasks;
     }
 
     @Transactional
