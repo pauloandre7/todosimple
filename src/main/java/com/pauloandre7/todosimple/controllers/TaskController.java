@@ -2,6 +2,7 @@ package com.pauloandre7.todosimple.controllers;
 
 import com.pauloandre7.todosimple.models.Task;
 import com.pauloandre7.todosimple.services.TaskService;
+import com.pauloandre7.todosimple.services.UserService;
 
 import java.net.URI;
 import java.util.List;
@@ -26,6 +27,9 @@ public class TaskController {
     
     @Autowired
     private TaskService taskService;
+    
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id){
@@ -36,6 +40,8 @@ public class TaskController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long userId){
+        
+        this.userService.findById(userId);
         List<Task> objs = this.taskService.findAllByUserId(userId);
 
         return ResponseEntity.ok().body(objs);
