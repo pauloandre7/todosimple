@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pauloandre7.todosimple.models.User;
 import com.pauloandre7.todosimple.repositories.UserRepository;
+import com.pauloandre7.todosimple.services.exceptions.DataBindingViolationException;
+import com.pauloandre7.todosimple.services.exceptions.ObjectNotFoundException;
 
 
 @Service
@@ -27,7 +29,7 @@ public class UserService {
         /* Envia o user se ele tiver preenchido. Se não tiver, ele vai ser do tipo Optional, não podendo ser retornado.
         * Sendo Optional, não podemos retornar, portanto o método em questão irá lançar uma
         * exceção.*/
-        return user.orElseThrow(() -> new RuntimeException(
+        return user.orElseThrow(() -> new ObjectNotFoundException(
             "Usuário não encontrado! Id: " +id+ ", Tipo: " +User.class.getName()
             ));
         // esse '()' é uma arrow function, usada para fazer lambda body
@@ -63,7 +65,7 @@ public class UserService {
         try{
             this.userRepo.deleteById(id);
         } catch(Exception e) {
-            throw new RuntimeException("Não é possível excluir pois há entidades relacionadas!");
+            throw new DataBindingViolationException("Não é possível excluir pois há entidades relacionadas!");
         }
     }
 }
